@@ -1,0 +1,45 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-svc
+  labels:
+    app: rabbitmq
+spec:
+  ports:
+    - name: ui
+      protocol: TCP
+      port: 15672
+    - name: server
+      protocol: TCP
+      port: 5672
+  type: LoadBalancer
+  selector:
+    app: rabbitmq
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rabbitmq-deploy
+  labels:
+    app: rabbitmq
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: islackregistry.azurecr.io/islack/rabbitmq:latest
+          name: rabbitmq
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 5672
+              name: server
+            - containerPort: 15672
+              name: ui
+      imagePullSecrets:
+        - name: my-secret
