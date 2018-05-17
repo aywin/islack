@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: photograph-deploy
+  labels:
+    app: photograph
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: photograph
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: islackregistry.azurecr.io/islack/photograph:latest
+          name: photograph
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: my-secret

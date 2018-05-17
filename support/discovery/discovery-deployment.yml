@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-svc
+  labels:
+    app: discovery
+spec:
+  ports:
+    - protocol: TCP
+      port: 8761 #port inside
+  type: LoadBalancer
+  selector:
+    app: discovery
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: discovery-deploy
+  labels:
+    app: discovery
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: discovery
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: islackregistry.azurecr.io/islack/discovery:latest
+          name: discovery
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8761
+      imagePullSecrets:
+        - name: my-secret

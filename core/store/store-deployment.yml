@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: store-deploy
+  labels:
+    app: store
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: store
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: islackregistry.azurecr.io/islack/store:latest
+          name: store
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: my-secret

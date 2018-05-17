@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-svc
+  labels:
+    app: config
+spec:
+  ports:
+    - protocol: TCP
+      port: 8888 #port inside
+  type: LoadBalancer
+  selector:
+    app: config
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: config-deploy
+  labels:
+    app: config
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: config
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: islackregistry.azurecr.io/islack/config:latest
+          name: config
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8888
+      imagePullSecrets:
+        - name: my-secret

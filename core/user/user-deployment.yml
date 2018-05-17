@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-deploy
+  labels:
+    app: user
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: islackregistry.azurecr.io/islack/user:latest
+          name: user
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: my-secret

@@ -1,0 +1,4 @@
+spring:
+  cloud:
+    config:
+      uri: http://config-svc:8888

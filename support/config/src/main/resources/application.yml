@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/aywin/islack-config
+        monitor:
+          github: enabled
+
+server:
+  port: 8888
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+      base-path: '/manager'
+

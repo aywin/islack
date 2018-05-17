@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-svc
+  labels:
+    app: gateway
+spec:
+  ports:
+    - protocol: TCP
+      port: 80 #port inside
+  type: LoadBalancer
+  selector:
+    app: gateway
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gateway-deploy
+  labels:
+    app: gateway
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: islackregistry.azurecr.io/islack/gateway:latest
+          name: gateway
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: my-secret
