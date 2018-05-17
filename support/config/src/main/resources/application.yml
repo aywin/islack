@@ -11,11 +11,12 @@ spring:
 
 server:
   port: 8888
+
 management:
+  security:
+    enabled: false
   endpoints:
     enabled-by-default: true
     web:
       exposure:
         include: '*'
-      base-path: '/manager'
-
