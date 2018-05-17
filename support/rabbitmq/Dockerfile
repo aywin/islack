@@ -1,3 +1,3 @@
 FROM rabbitmq
-EXPOSE 5672
-EXPOSE 15672
+RUN rabbitmq-plugins enable --offline rabbitmq_management
+EXPOSE 15671 15672
