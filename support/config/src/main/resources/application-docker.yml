@@ -8,6 +8,12 @@ spring:
           uri: https://github.com/aywin/islack-config
         monitor:
           github: enabled
+  rabbitmq:
+    host: rabbitmq-svc
+    port: 5672
+    username: guest
+    password: guest
+
 server:
   port: 8888
 

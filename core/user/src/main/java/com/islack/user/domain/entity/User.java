@@ -5,7 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,11 +26,11 @@ public class User {
     @Column(nullable = false, updatable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP()")
     @CreationTimestamp
-    private LocalDateTime createdDate;
+    private Date createdDate;
     @Column(nullable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP()")
     @UpdateTimestamp
-    private LocalDateTime updatedDate;
+    private Date updatedDate;
 
     public Long getId() {
         return id;
@@ -72,19 +72,19 @@ public class User {
         this.profile = profile;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedDate() {
+    public Date getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate) {
+    public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
 

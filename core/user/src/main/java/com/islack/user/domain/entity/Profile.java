@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Profile {
@@ -18,11 +19,11 @@ public class Profile {
     @Column(nullable = false, updatable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP()")
     @CreationTimestamp
-    private LocalDateTime createdDate;
+    private Date createdDate;
     @Column(nullable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP()")
     @UpdateTimestamp
-    private LocalDateTime updatedDate;
+    private Date updatedDate;
 
     public Long getId() {
         return id;
@@ -56,19 +57,19 @@ public class Profile {
         this.phoneNumber = phoneNumber;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedDate() {
+    public Date getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate) {
+    public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
 }
