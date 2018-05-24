@@ -1,5 +1,5 @@
 islack/config
 islack/discovery
-islack/user
+islack/account
 islack/gateway
 

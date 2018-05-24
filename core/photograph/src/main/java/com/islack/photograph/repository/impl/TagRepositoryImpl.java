@@ -20,7 +20,7 @@ public class TagRepositoryImpl implements TagRepositoryExtension {
     public List<Tag> findOrCreate(List<Tag> tags) {
         return tags
                 .stream()
-                .map(tag -> tagRepositorySpring.existsById(tag.getTag()) ? tag : tagRepositorySpring.save(tag))
+                .map(tag -> tagRepositorySpring.exists(tag.getTag()) ? tag : tagRepositorySpring.save(tag))
                 .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,13 @@
+server:
+  port: 8769
+  context-path: /uaa
+  use-forward-headers: false
+spring:
+  datasource:
+    url: jdbc:sqlserver://islack.database.windows.net:1433;database=userdb
+    username: islack
+    password: iDBrahim1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true

@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class User implements UserDetails {
+public class Account implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -30,7 +30,7 @@ public class User implements UserDetails {
 
     private boolean enabled = true;
 
-    public User() {
+    public Account() {
 
     }
 
@@ -113,7 +113,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Account{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

@@ -1,12 +1,12 @@
 package com.islack.oauth.repository;
 
-import com.islack.oauth.model.User;
+import com.islack.oauth.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(final String username);
-    Optional<User> findByEmail(final String email);
+public interface UserRepository extends JpaRepository<Account, Long> {
+    Optional<Account> findByUsername(final String username);
+    Optional<Account> findByEmail(final String email);
 }

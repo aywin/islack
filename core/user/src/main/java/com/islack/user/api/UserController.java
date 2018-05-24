@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -44,5 +45,11 @@ public class UserController {
     @GetMapping("test")
     public ResponseEntity<String> test() {
         return new ResponseEntity<>(cf.showProperties(), HttpStatus.OK);
+    }
+
+    @GetMapping("demo")
+    @PreAuthorize("hasAuthority('query-demo')")
+    public String getDemo(){
+        return "good";
     }
 }

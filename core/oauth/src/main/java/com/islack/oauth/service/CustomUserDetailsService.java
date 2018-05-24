@@ -1,6 +1,6 @@
 package com.islack.oauth.service;
 
-import com.islack.oauth.model.User;
+import com.islack.oauth.model.Account;
 import com.islack.oauth.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +30,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-        Optional<User> user = input.contains("@") ? userRepository.findByEmail(input) : userRepository.findByUsername(input);
+        Optional<Account> user = input.contains("@") ? userRepository.findByEmail(input) : userRepository.findByUsername(input);
 
-        user.orElseThrow(() -> new UsernameNotFoundException("User <" + input + "> could not be found"));
+        user.orElseThrow(() -> new UsernameNotFoundException("Account <" + input + "> could not be found"));
 
         detailsChecker.check(user.get());
 
