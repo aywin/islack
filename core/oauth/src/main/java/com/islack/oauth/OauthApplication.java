@@ -26,6 +26,8 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -35,6 +37,7 @@ import org.springframework.web.filter.ForwardedHeaderFilter;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.servlet.http.HttpServletResponse;
 import java.security.KeyPair;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -87,8 +90,14 @@ public class OauthApplication extends WebMvcConfigurerAdapter {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.formLogin().loginPage("/login").permitAll().and().authorizeRequests()
-                    .anyRequest().authenticated();
+            /*http.formLogin().loginPage("/login").permitAll().and().authorizeRequests()
+                    .anyRequest().authenticated()
+                    .and()
+                    .csrf().disable();*/
+            http.csrf().disable().exceptionHandling()
+                    .authenticationEntryPoint(
+                            (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                    .and().authorizeRequests().antMatchers("/**").permitAll().and().httpBasic();
         }
 
         @Override
@@ -116,7 +125,7 @@ public class OauthApplication extends WebMvcConfigurerAdapter {
 
         @Bean
         public JwtAccessTokenConverter jwtAccessTokenConverter() {
-            JwtAccessTokenConverter converter = new CustomTokenEnhancer();
+            JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
             KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource("keystore.jks"), "foobar".toCharArray())
                     .getKeyPair("test");
             converter.setKeyPair(keyPair);

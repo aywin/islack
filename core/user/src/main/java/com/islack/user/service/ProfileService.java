@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface ProfileService {
     Optional<Profile> getByUsername(String username);
-    Optional<Profile> getByEmail(String email);
 }
