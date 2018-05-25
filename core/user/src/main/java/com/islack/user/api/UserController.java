@@ -1,55 +1,26 @@
 package com.islack.user.api;
 
-import com.islack.user.configuration.ClientConfiguration;
-import com.islack.user.domain.entity.MyMessage;
-import com.islack.user.domain.entity.User;
-import com.islack.user.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.islack.user.domain.entity.Profile;
+import com.islack.user.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("users")
 public class UserController {
 
     @Autowired
-    UserService userService;
+    ProfileService profileService;
 
-    @Autowired
-    private ClientConfiguration cf;
-
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @RequestMapping("find-by-username/{username}")
-    public ResponseEntity<MyMessage> findByUsername(@PathVariable("username") String username) {
-        MyMessage message = new MyMessage();
-        message.setYasmessage("hello " + username);
-        return new ResponseEntity<>(message, HttpStatus.OK);
-   /*     return userService.getByUsername(username)
-                .map(user1 -> new ResponseEntity<>(user1, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
-   */}
-
-    @RequestMapping("find-by-email")
-    public ResponseEntity<User> findByEmail(@RequestParam("email") String email) {
-        return userService.getByEmail(email)
-                .map(user1 -> new ResponseEntity<>(user1, HttpStatus.OK))
+    @RequestMapping("mine/{username}")
+    public ResponseEntity<Profile> findByEmail(@PathVariable("username") String username) {
+        return profileService.getByUsername(username)
+                .map(p -> new ResponseEntity<>(p, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
-    @GetMapping("test")
-    public ResponseEntity<String> test() {
-        return new ResponseEntity<>(cf.showProperties(), HttpStatus.OK);
-    }
-
-    @GetMapping("demo")
-    @PreAuthorize("hasAuthority('query-demo')")
-    public String getDemo(){
-        return "good";
-    }
 }
