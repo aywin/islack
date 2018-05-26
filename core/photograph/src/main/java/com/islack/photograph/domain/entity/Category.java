@@ -5,23 +5,24 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String title;
     private String description;
     @Column(nullable = false, updatable = false)
-    @ColumnDefault(value = "CURRENT_TIMESTAMP()")
+    @ColumnDefault(value = "GETDATE()")
     @CreationTimestamp
-    private LocalDateTime createdDate;
+    private Date createdDate;
     @Column(nullable = false)
-    @ColumnDefault(value = "CURRENT_TIMESTAMP()")
+    @ColumnDefault(value = "GETDATE()")
     @UpdateTimestamp
-    private LocalDateTime updatedDate;
+    private Date updatedDate;
 
     public Long getId() {
         return id;
@@ -47,19 +48,19 @@ public class Category {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedDate() {
+    public Date getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate) {
+    public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
 }

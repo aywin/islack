@@ -1,4 +1,4 @@
-package com.islack.store.domain.entity;
+package com.islack.photograph.domain.entity;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -6,33 +6,31 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-abstract public class Transaction {
+public class PhotographAccess {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String username;
     @Column(nullable = false)
-    protected Long credit;
-    protected String username;
-
+    private Long credit;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Photograph photograph;
     @Column(nullable = false, updatable = false)
-    @ColumnDefault(value = "GETDATE()")
     @CreationTimestamp
+    @ColumnDefault(value = "GETDATE()")
     private Date createdDate;
     @Column(nullable = false)
     @ColumnDefault(value = "GETDATE()")
     @UpdateTimestamp
     private Date updatedDate;
 
-
-    public Long getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getCredit() {
@@ -43,12 +41,12 @@ abstract public class Transaction {
         this.credit = credit;
     }
 
-    public String getUsername() {
-        return username;
+    public Photograph getPhotograph() {
+        return photograph;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPhotograph(Photograph photograph) {
+        this.photograph = photograph;
     }
 
     public Date getCreatedDate() {

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 @Entity
 public class Payout extends Transaction {
     private String accountEmail;
-    private Double amount;
 
     public String getAccountEmail() {
         return accountEmail;
@@ -15,11 +14,9 @@ public class Payout extends Transaction {
         this.accountEmail = accountEmail;
     }
 
-    public Double getAmount() {
-        return amount;
+    @Override
+    public Long getCredit() {
+        return - this.credit;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
 }

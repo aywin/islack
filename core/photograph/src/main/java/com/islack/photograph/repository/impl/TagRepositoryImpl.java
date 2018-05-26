@@ -17,9 +17,10 @@ public class TagRepositoryImpl implements TagRepositoryExtension {
     TagRepositorySpring tagRepositorySpring;
 
     @Override
-    public List<Tag> findOrCreate(List<Tag> tags) {
+    public List<Tag> findOrCreate(List<String> tags) {
         return tags
                 .stream()
+                .map(Tag::new)
                 .map(tag -> tagRepositorySpring.exists(tag.getTag()) ? tag : tagRepositorySpring.save(tag))
                 .collect(Collectors.toList());
     }

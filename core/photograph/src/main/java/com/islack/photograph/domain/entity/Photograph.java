@@ -5,7 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,15 +18,15 @@ public class Photograph {
     private List<Tag> tags;
     @ManyToMany
     private List<Category> categories;
-    private Long userId;
+    private String username;
     @Column(nullable = false, updatable = false)
-    @ColumnDefault(value = "CURRENT_TIMESTAMP()")
+    @ColumnDefault(value = "GETDATE()")
     @CreationTimestamp
-    private LocalDateTime createdDate;
+    private Date createdDate;
     @Column(nullable = false)
-    @ColumnDefault(value = "CURRENT_TIMESTAMP()")
+    @ColumnDefault(value = "GETDATE()")
     @UpdateTimestamp
-    private LocalDateTime updatedDate;
+    private Date updatedDate;
 
     public Long getId() {
         return id;
@@ -60,27 +60,28 @@ public class Photograph {
         this.categories = categories;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedDate() {
+    public Date getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate) {
+    public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

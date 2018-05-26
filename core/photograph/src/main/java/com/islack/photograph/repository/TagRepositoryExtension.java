@@ -6,5 +6,5 @@ import com.islack.photograph.domain.entity.Tag;
 import java.util.List;
 
 public interface TagRepositoryExtension {
-    List<Tag> findOrCreate(List<Tag> tags);
+    List<Tag> findOrCreate(List<String> tags);
 }
