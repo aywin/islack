@@ -4,4 +4,5 @@ islack/user
 islack/gateway
 islack/photograph
 islack/store
+islack/oauth
 
