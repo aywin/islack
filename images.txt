@@ -2,4 +2,6 @@ islack/config
 islack/discovery
 islack/user
 islack/gateway
+islack/photograph
+islack/store
 
