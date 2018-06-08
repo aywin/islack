@@ -13,7 +13,7 @@ spec:
       labels:
         app: user
     spec:
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 0
       containers:
         - image: islackregistry.azurecr.io/islack/user:latest
           name: user

@@ -30,7 +30,6 @@ public class PhotographServiceImpl implements PhotographService {
     @Override
     public Photograph dtoToEntity(PhotographDto dto) {
         Photograph p = new Photograph();
-        p.setUri(dto.getUri());
         p.setTags(tagRepository.findOrCreate(dto.getTags()));
         p.setCategories(categoryRepository.findAllByTitleIn(dto.getCategories()));
 

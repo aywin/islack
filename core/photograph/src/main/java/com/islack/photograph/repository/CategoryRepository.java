@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    List<Category> findAllByTitleIn(List<String> categories);
+    List<Category> findAllByTitleIn(String[] categories);
 }

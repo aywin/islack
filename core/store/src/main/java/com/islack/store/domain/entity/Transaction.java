@@ -9,12 +9,11 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-abstract public class Transaction {
+public abstract class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    protected Long credit;
     protected String username;
 
     @Column(nullable = false, updatable = false)
@@ -35,13 +34,7 @@ abstract public class Transaction {
         this.id = id;
     }
 
-    public Long getCredit() {
-        return credit;
-    }
-
-    public void setCredit(Long credit) {
-        this.credit = credit;
-    }
+    public abstract Long getCredit();
 
     public String getUsername() {
         return username;

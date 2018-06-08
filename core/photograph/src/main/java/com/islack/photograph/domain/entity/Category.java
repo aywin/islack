@@ -16,11 +16,9 @@ public class Category {
     private String title;
     private String description;
     @Column(nullable = false, updatable = false)
-    @ColumnDefault(value = "GETDATE()")
     @CreationTimestamp
     private Date createdDate;
     @Column(nullable = false)
-    @ColumnDefault(value = "GETDATE()")
     @UpdateTimestamp
     private Date updatedDate;
 

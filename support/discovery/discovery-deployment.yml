@@ -27,7 +27,7 @@ spec:
       labels:
         app: discovery
     spec:
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 0
       containers:
         - image: islackregistry.azurecr.io/islack/discovery:latest
           name: discovery

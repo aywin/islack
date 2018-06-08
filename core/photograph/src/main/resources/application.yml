@@ -7,3 +7,8 @@ spring:
 logging:
   level:
     org.springframework.cloud.sleuth: DEBUG
+
+
+azure:
+  storage:
+    connection-string: DefaultEndpointsProtocol=https;AccountName=islack;AccountKey=dVjz6aoi9W9Azg4vsA7Zxjzh2e0yrt3/USCMzWCdLbjQGUJMYWb9KD8t9SOTAmgnzu5+P9bEbmf5mhD1xUPPGA==;EndpointSuffix=core.windows.net

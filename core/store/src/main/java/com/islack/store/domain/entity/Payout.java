@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Payout extends Transaction {
+    private Long amount;
     private String accountEmail;
 
     public String getAccountEmail() {
@@ -16,7 +17,14 @@ public class Payout extends Transaction {
 
     @Override
     public Long getCredit() {
-        return - this.credit;
+        return - this.amount;
     }
 
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
 }

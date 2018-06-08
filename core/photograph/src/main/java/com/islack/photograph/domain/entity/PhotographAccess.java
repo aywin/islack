@@ -1,12 +1,10 @@
 package com.islack.photograph.domain.entity;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class PhotographAccess {
@@ -18,10 +16,8 @@ public class PhotographAccess {
     private Photograph photograph;
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    @ColumnDefault(value = "GETDATE()")
     private Date createdDate;
     @Column(nullable = false)
-    @ColumnDefault(value = "GETDATE()")
     @UpdateTimestamp
     private Date updatedDate;
 

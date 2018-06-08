@@ -31,7 +31,7 @@ spec:
       labels:
         app: rabbitmq
     spec:
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 0
       containers:
         - image: islackregistry.azurecr.io/islack/rabbitmq:latest
           name: rabbitmq

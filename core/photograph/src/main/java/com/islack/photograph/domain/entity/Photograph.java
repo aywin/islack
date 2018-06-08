@@ -20,11 +20,9 @@ public class Photograph {
     private List<Category> categories;
     private String username;
     @Column(nullable = false, updatable = false)
-    @ColumnDefault(value = "GETDATE()")
     @CreationTimestamp
     private Date createdDate;
     @Column(nullable = false)
-    @ColumnDefault(value = "GETDATE()")
     @UpdateTimestamp
     private Date updatedDate;
 

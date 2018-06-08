@@ -1,36 +1,26 @@
 package com.islack.photograph.domain.dto;
 
-import com.islack.photograph.domain.entity.Photograph;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public class PhotographDto {
-    private String uri;
-    private List<String> tags;
-    private List<String> categories;
+    private String[] tags;
+    private String[] categories;
 
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    public List<String> getTags() {
+    public String[] getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 
-    public List<String> getCategories() {
+    public String[] getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(String[] categories) {
         this.categories = categories;
     }
-
 }

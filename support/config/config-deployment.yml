@@ -27,7 +27,7 @@ spec:
       labels:
         app: config
     spec:
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 0
       containers:
         - image: islackregistry.azurecr.io/islack/config:latest
           name: config
