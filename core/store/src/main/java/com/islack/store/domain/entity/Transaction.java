@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "deal")
 public abstract class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
