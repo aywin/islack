@@ -10,4 +10,6 @@ public interface PhotographService {
     Photograph save(Photograph p);
     List<Photograph> findOwned(String username);
     List<Photograph> findPurchased(String username);
+    Photograph findOne(Long id);
+    boolean ownedOrPurchased(String username, Long id);
 }

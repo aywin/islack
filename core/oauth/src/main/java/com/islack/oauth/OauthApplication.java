@@ -1,5 +1,6 @@
 package com.islack.oauth;
 
+import com.islack.oauth.handler.AccountEventHandler;
 import com.islack.oauth.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +9,8 @@ import org.springframework.boot.actuate.autoconfigure.ManagementServerProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -202,5 +205,10 @@ public class OauthApplication extends WebMvcConfigurerAdapter {
             }
         }
 
+    }
+
+    @Bean
+    AccountEventHandler accountEventHandler() {
+        return new AccountEventHandler();
     }
 }

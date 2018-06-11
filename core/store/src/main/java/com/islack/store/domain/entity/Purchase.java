@@ -8,9 +8,15 @@ public class Purchase extends Transaction {
     @ManyToOne
     private Offer offer;
 
+    private Long credit;
+
+    public void setCredit(Long credit) {
+        this.credit = credit;
+    }
+
     @Override
     public Long getCredit() {
-        return offer.getCredit();
+        return credit;
     }
 
     public Offer getOffer() {
@@ -19,5 +25,10 @@ public class Purchase extends Transaction {
 
     public void setOffer(Offer offer) {
         this.offer = offer;
+        this.credit = offer.getCredit();
+    }
+
+    public String getDescription() {
+        return "Purchase offer: " + offer.getName();
     }
 }

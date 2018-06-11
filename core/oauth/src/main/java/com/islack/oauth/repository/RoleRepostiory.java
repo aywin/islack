@@ -1,0 +1,10 @@
+package com.islack.oauth.repository;
+
+import com.islack.oauth.model.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RoleRepostiory extends JpaRepository<Role, Long> {
+    Role findByName(String name);
+}

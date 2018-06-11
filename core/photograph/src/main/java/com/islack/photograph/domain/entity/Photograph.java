@@ -14,6 +14,7 @@ public class Photograph {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String uri;
+    private Long credit;
     @ManyToMany
     private List<Tag> tags;
     @ManyToMany
@@ -81,5 +82,13 @@ public class Photograph {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Long getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Long credit) {
+        this.credit = credit;
     }
 }

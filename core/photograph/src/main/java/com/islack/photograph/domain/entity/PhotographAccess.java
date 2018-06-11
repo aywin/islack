@@ -9,6 +9,8 @@ import java.util.Date;
 @Entity
 public class PhotographAccess {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String username;
     @Column(nullable = false)
     private Long credit;
@@ -59,5 +61,13 @@ public class PhotographAccess {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

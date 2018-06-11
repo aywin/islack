@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public class PhotographDto {
+    private Long credit;
     private String[] tags;
     private String[] categories;
 
@@ -22,5 +23,13 @@ public class PhotographDto {
 
     public void setCategories(String[] categories) {
         this.categories = categories;
+    }
+
+    public Long getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Long credit) {
+        this.credit = credit;
     }
 }

@@ -13,18 +13,13 @@ public abstract class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    protected String username;
 
     @Column(nullable = false, updatable = false)
-    @ColumnDefault(value = "GETDATE()")
     @CreationTimestamp
     private Date createdDate;
     @Column(nullable = false)
-    @ColumnDefault(value = "GETDATE()")
     @UpdateTimestamp
     private Date updatedDate;
-
 
     public Long getId() {
         return id;
@@ -36,13 +31,7 @@ public abstract class Transaction {
 
     public abstract Long getCredit();
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public abstract String getDescription();
 
     public Date getCreatedDate() {
         return createdDate;
@@ -59,4 +48,5 @@ public abstract class Transaction {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+
 }

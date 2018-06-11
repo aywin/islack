@@ -32,6 +32,7 @@ public class PhotographServiceImpl implements PhotographService {
         Photograph p = new Photograph();
         p.setTags(tagRepository.findOrCreate(dto.getTags()));
         p.setCategories(categoryRepository.findAllByTitleIn(dto.getCategories()));
+        p.setCredit(dto.getCredit());
 
         return p;
     }
@@ -53,5 +54,19 @@ public class PhotographServiceImpl implements PhotographService {
                 .stream()
                 .map(PhotographAccess::getPhotograph)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Photograph findOne(Long id) {
+        return photographRepository.findOne(id);
+    }
+
+    @Override
+    public boolean ownedOrPurchased(String username, Long id) {
+        if(photographRepository.findByUsernameAndId(username, id).isPresent()) {
+            return true;
+        }
+        Photograph p = photographRepository.findOne(id);
+        return photographAccessRepository.findByUsernameAndPhotograph(username, p).isPresent();
     }
 }

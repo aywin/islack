@@ -27,4 +27,8 @@ public class Payout extends Transaction {
     public void setAmount(Long amount) {
         this.amount = amount;
     }
+
+    public String getDescription() {
+        return "Payout amout: " + getCredit();
+    }
 }
