@@ -5,6 +5,6 @@ import com.islack.photograph.domain.dto.TransactionDto;
 import org.springframework.http.ResponseEntity;
 
 public interface StoreService {
-    ResponseEntity<TransactionDto> purchasePhotograph(String username, PurchasePhotographDto purchasePhotographDto, String bearer);
-    ResponseEntity<String> test(Long id, String bearer);
+    ResponseEntity<TransactionDto> purchasePhotograph(String bearer, String username, PurchasePhotographDto purchasePhotographDto);
+    ResponseEntity<String> test(String bearer, Long id);
 }

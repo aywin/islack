@@ -7,6 +7,7 @@ import com.islack.photograph.domain.dto.TransactionDto;
 import com.islack.photograph.domain.entity.Photograph;
 import com.islack.photograph.service.AzureStorageUploaderService;
 import com.islack.photograph.service.PhotographService;
+import com.islack.photograph.service.StoreClient;
 import com.islack.photograph.service.StoreService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,12 +73,12 @@ public class PhotographController {
             return new ResponseEntity<>("Already owned", HttpStatus.OK);
         }
         PurchasePhotographDto p = new PurchasePhotographDto(photographService.findOne(id));
-        return storeService.purchasePhotograph(principal.getName(), p, bearer);
+        return storeService.purchasePhotograph(bearer, principal.getName(), p);
     }
 
     @PostMapping("{id}/hello")
     public ResponseEntity<String> hello(@PathVariable("id") Long id, @RequestHeader("Authorization") String bearer) {
-        return storeService.test(id, bearer);
+        return storeService.test(bearer, id);
     }
 
 }
