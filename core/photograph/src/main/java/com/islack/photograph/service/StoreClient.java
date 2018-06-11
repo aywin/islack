@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(name = "store")
 public interface StoreClient {
     @PostMapping("/transaction/test")
-    ResponseEntity<String> test(@RequestHeader("Authorization") String bearer, @RequestBody Long id);
+    ResponseEntity<String> test(@RequestBody Long id);
     @PostMapping("/transaction/photograph")
-    ResponseEntity<TransactionDto> purchasePhotograph(@RequestHeader("Authorization") String bearer, @RequestBody PurchasePhotographDto purchasePhotographDto);
+    ResponseEntity<TransactionDto> purchasePhotograph(@RequestBody PurchasePhotographDto purchasePhotographDto);
 }

@@ -53,7 +53,6 @@ public class PhotographController {
         String imageUri = this.azureStorageUploader.uploadToAzureStorage(applicationContext, file, newName.toLowerCase());
 
         Photograph p = photographService.dtoToEntity(dto);
-        //Photograph p = new Photograph();
         p.setUsername(principal.getName());
         p.setUri(newName);
         return photographService.save(p);
@@ -68,17 +67,17 @@ public class PhotographController {
     }
 
     @PostMapping("{photoId}/purchase")
-    public ResponseEntity<?> purchase(@PathVariable("photoId") Long id, @RequestHeader("Authorization") String bearer, Principal principal) {
+    public ResponseEntity<?> purchase(@PathVariable("photoId") Long id, Principal principal) {
         if(photographService.ownedOrPurchased(principal.getName(), id)) {
             return new ResponseEntity<>("Already owned", HttpStatus.OK);
         }
         PurchasePhotographDto p = new PurchasePhotographDto(photographService.findOne(id));
-        return storeService.purchasePhotograph(bearer, principal.getName(), p);
+        return storeService.purchasePhotograph(principal.getName(), p);
     }
 
     @PostMapping("{id}/hello")
-    public ResponseEntity<String> hello(@PathVariable("id") Long id, @RequestHeader("Authorization") String bearer) {
-        return storeService.test(bearer, id);
+    public ResponseEntity<String> hello(@PathVariable("id") Long id) {
+        return storeService.test(id);
     }
 
 }

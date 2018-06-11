@@ -26,8 +26,8 @@ public class StoreServiceImpl implements StoreService {
     private PhotographRepository photographRepository;
 
     @Override
-    public ResponseEntity<TransactionDto> purchasePhotograph(String bearer, String username, PurchasePhotographDto purchasePhotographDto) {
-        ResponseEntity<TransactionDto> r = storeClient.purchasePhotograph(bearer, purchasePhotographDto);
+    public ResponseEntity<TransactionDto> purchasePhotograph(String username, PurchasePhotographDto purchasePhotographDto) {
+        ResponseEntity<TransactionDto> r = storeClient.purchasePhotograph(purchasePhotographDto);
 
         if(r.getStatusCode().is2xxSuccessful()) {
             Photograph p = photographRepository.findOne(purchasePhotographDto.getPhotoId());
@@ -43,7 +43,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public ResponseEntity<String> test(String bearer, Long id) {
-        return storeClient.test(bearer, id);
+    public ResponseEntity<String> test(Long id) {
+        return storeClient.test(id);
     }
 }
