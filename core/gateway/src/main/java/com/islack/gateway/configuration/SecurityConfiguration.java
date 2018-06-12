@@ -23,6 +23,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -42,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
     private static final String CSRF_HEADER_NAME = "X-XSRF-TOKEN";
 
+
     @Autowired
     private ResourceServerTokenServices resourceServerTokenServices;
 
@@ -54,11 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/uaa/**", "/login").permitAll().anyRequest().authenticated()
-            .and()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
+            .and().cors().and()
             .csrf().requireCsrfProtectionMatcher(csrfRequestMatcher()).csrfTokenRepository(csrfTokenRepository())
             .and()
             .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
@@ -66,6 +64,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .logout().permitAll()
             .logoutSuccessUrl("/");
     }
+
+
 
     private OAuth2AuthenticationProcessingFilter oAuth2AuthenticationProcessingFilter() {
         OAuth2AuthenticationProcessingFilter oAuth2AuthenticationProcessingFilter =
