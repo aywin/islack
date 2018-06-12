@@ -54,7 +54,6 @@ public class GatewayApplication {
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
-        config.addExposedHeader("*");
         config.addAllowedMethod("*");
         config.addAllowedOrigin("*");
         config.setAllowedMethods(Arrays.stream(HttpMethod.values()).map(HttpMethod::name).collect(Collectors.toList()));
