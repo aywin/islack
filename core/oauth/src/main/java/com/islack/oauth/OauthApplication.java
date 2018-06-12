@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
@@ -98,11 +97,7 @@ public class OauthApplication extends WebMvcConfigurerAdapter {
                     .anyRequest().authenticated()
                     .and()
                     .csrf().disable();*/
-            http.csrf().disable().authorizeRequests()
-                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()//allow CORS option calls
-                    .anyRequest().authenticated()
-                    .and()
-                    .exceptionHandling()
+            http.csrf().disable().exceptionHandling()
                     .authenticationEntryPoint(
                             (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                     .and().authorizeRequests().antMatchers("/**").permitAll().and().httpBasic();
