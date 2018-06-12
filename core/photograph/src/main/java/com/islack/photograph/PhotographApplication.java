@@ -18,5 +18,4 @@ public class PhotographApplication {
         SpringApplication.run(PhotographApplication.class, args);
     }
 
-
 }
