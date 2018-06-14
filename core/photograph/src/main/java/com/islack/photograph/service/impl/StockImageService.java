@@ -82,34 +82,30 @@ public class StockImageService {
 
     @Transactional
     @Async
-    public void stockToDB() {
+    public void stockToDB(int category, int i) {
         List<Photograph> photographs = new ArrayList<>();
 
-        for(String c : categories) {
-            Category ct = categoryRepository.findBySlug(c);
-            try {
-                for(int i = 1; i >= 0; i++) {
-                    StockPhotoHits s = stockClient.getHits(c, i);
-                    System.out.println("SIIZE == " + s.getHits().size());
-                    for(StockPhoto d: s.getHits()) {
-                        String fileName = "islack-" + UUID.randomUUID() + ".jpg";
-                        azureStorageUploader.uploadFromStockToAzure(applicationContext, d, fileName);
-                        Photograph p = new Photograph();
-                        p.setThumbnail(d.getPreviewURL());
-                        p.setUri(d.getLargeImageURL());
-                        List<Tag> tags = tagRepository.findOrCreate(d.toTags());
-                        p.setTags(tags);
-                        p.setUsername("islack");
-                        p.setCredit(5L);
-                        p.getCategories().add(ct);
-                        photographs.add(p);
-                    }
-                }
-                System.out.println("fin helelele ==" + photographs.size());
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+        String c = categories[category];
+        Category ct = categoryRepository.findBySlug(c);
+        try {
+            StockPhotoHits s = stockClient.getHits(c, i);
+            System.out.println("SIIZE == " + s.getHits().size());
+            for (StockPhoto d : s.getHits()) {
+                String fileName = "islack-" + UUID.randomUUID() + ".jpg";
+                azureStorageUploader.uploadFromStockToAzure(applicationContext, d, fileName);
+                Photograph p = new Photograph();
+                p.setThumbnail("https://islack.blob.core.windows.net/images-thumbnail/" + fileName);
+                p.setUri("https://islack.blob.core.windows.net/images-original/" + fileName);
+                List<Tag> tags = tagRepository.findOrCreate(d.toTags());
+                p.setTags(tags);
+                p.setUsername("islack");
+                p.setCredit(5L);
+                p.getCategories().add(ct);
+                photographs.add(p);
             }
-
+            System.out.println("fin helelele ==" + photographs.size());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
         photographRepository.save(photographs);
