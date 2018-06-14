@@ -11,6 +11,7 @@ import com.islack.photograph.repository.TagRepository;
 import com.islack.photograph.service.AzureStorageUploaderService;
 import com.islack.photograph.service.ComputerVisionService;
 import com.islack.photograph.service.StockClient;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
@@ -87,40 +88,49 @@ public class StockImageService {
     @Transactional
     @Async
     public void stockToDB(int category, int i) {
-        List<Photograph> photographs = new ArrayList<>();
-
-        String c = categories[category];
-        Category ct = categoryRepository.findBySlug(c);
         try {
-            StockPhotoHits s = stockClient.getHits(c, i);
-            System.out.println("SIIZE == " + s.getHits().size());
-            for (StockPhoto d : s.getHits()) {
-                String fileName = "islack-" + UUID.randomUUID() + ".jpg";
-                azureStorageUploader.uploadFromStockToAzure(applicationContext, d, fileName);
-                Photograph p = new Photograph();
-                p.setThumbnail("https://islack.blob.core.windows.net/images-thumbnail/" + fileName);
-                p.setUri("https://islack.blob.core.windows.net/images-original/" + fileName);
-                List<Tag> tags = tagRepository.findOrCreate(d.toTags());
-                p.setTags(tags);
-                p.setUsername("islack");
-                p.setCredit(5L);
-                p.getCategories().add(ct);
-                computerVisionService.analyzeWithoutSaving(p);
-                photographs.add(p);
+            List<Photograph> photographs = new ArrayList<>();
+
+            String c = categories[category];
+            Category ct = categoryRepository.findBySlug(c);
+            try {
+                StockPhotoHits s = stockClient.getHits(c, i);
+                System.out.println("SIIZE == " + s.getHits().size());
+                for (StockPhoto d : s.getHits()) {
+                    String fileName = "islack-" + UUID.randomUUID() + ".jpg";
+                    azureStorageUploader.uploadFromStockToAzure(applicationContext, d, fileName);
+                    Photograph p = new Photograph();
+                    p.setThumbnail("https://islack.blob.core.windows.net/images-thumbnail/" + fileName);
+                    p.setUri("https://islack.blob.core.windows.net/images-original/" + fileName);
+                    List<Tag> tags = tagRepository.findOrCreate(d.toTags());
+                    p.setTags(tags);
+                    p.setUsername("islack");
+                    p.setCredit(5L);
+                    p.getCategories().add(ct);
+                    computerVisionService.analyzeWithoutSaving(p);
+                    photographs.add(p);
+                }
+                System.out.println("fin helelele ==" + photographs.size());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-            System.out.println("fin helelele ==" + photographs.size());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+
+            categoryRepository.flush();
+            tagRepository.flush();
+            photographRepository.flush();
+
+            for(Photograph ph: photographs) {
+                photographRepository.saveAndFlush(ph);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch(ConstraintViolationException e) {
+            System.out.println("myexception: PK");
         }
 
-        for(Photograph ph: photographs) {
-            photographRepository.save(ph);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private Photograph hitToPhotograph(StockPhoto d) {
