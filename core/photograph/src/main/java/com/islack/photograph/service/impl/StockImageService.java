@@ -105,7 +105,7 @@ public class StockImageService {
                 p.setUsername("islack");
                 p.setCredit(5L);
                 p.getCategories().add(ct);
-                computerVisionService.analyze(p);
+                computerVisionService.analyzeWithoutSaving(p);
                 photographs.add(p);
             }
             System.out.println("fin helelele ==" + photographs.size());
