@@ -113,7 +113,14 @@ public class StockImageService {
             System.out.println(e.getMessage());
         }
 
-        photographRepository.save(photographs);
+        for(Photograph ph: photographs) {
+            photographRepository.save(ph);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private Photograph hitToPhotograph(StockPhoto d) {
