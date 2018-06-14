@@ -11,15 +11,15 @@ public class Tag {
     public Tag() {}
 
     public Tag(String tag) {
-        this.tag = tag;
+        this.tag = tag.toLowerCase();
     }
 
     public String getTag() {
-        return tag;
+        return tag.toLowerCase();
     }
 
     public void setTag(String tag) {
-        this.tag = tag;
+        this.tag = tag.toLowerCase();
     }
 
 }

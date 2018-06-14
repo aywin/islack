@@ -1,10 +1,12 @@
 package com.islack.photograph.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,11 +16,15 @@ public class Photograph {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String uri;
+    private String thumbnail;
     private Long credit;
     @ManyToMany
-    private List<Tag> tags;
-    @ManyToMany
-    private List<Category> categories;
+    private List<Tag> tags = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Category> categories = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "photograph")
+    private List<PhotographAccess> photographAccesses = new ArrayList<>();
     private String username;
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
@@ -90,5 +96,21 @@ public class Photograph {
 
     public void setCredit(Long credit) {
         this.credit = credit;
+    }
+
+    public List<PhotographAccess> getPhotographAccesses() {
+        return photographAccesses;
+    }
+
+    public void setPhotographAccesses(List<PhotographAccess> photographAccesses) {
+        this.photographAccesses = photographAccesses;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

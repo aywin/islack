@@ -12,4 +12,7 @@ public interface PhotographService {
     List<Photograph> findPurchased(String username);
     Photograph findOne(Long id);
     boolean ownedOrPurchased(String username, Long id);
+    List<Photograph> getRecommendations(Photograph p);
+    List<Photograph> getRecommendations(List<Photograph> p);
+    List<Photograph> byCategory(String slug);
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TagRepositoryExtension {
     List<Tag> findOrCreate(String[] tags);
+    List<Tag> findOrCreate(List<String> tags);
 }

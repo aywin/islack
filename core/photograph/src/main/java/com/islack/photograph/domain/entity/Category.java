@@ -5,7 +5,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -15,6 +17,8 @@ public class Category {
     @Column(unique = true)
     private String title;
     private String description;
+    @Column(unique = true)
+    private String slug;
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdDate;
@@ -61,4 +65,13 @@ public class Category {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
 }

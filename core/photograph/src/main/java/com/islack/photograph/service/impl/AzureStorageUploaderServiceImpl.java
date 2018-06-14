@@ -1,5 +1,6 @@
 package com.islack.photograph.service.impl;
 
+import com.islack.photograph.domain.dto.StockPhoto;
 import com.islack.photograph.service.AzureStorageUploaderService;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.*;
@@ -14,6 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Helper class that provides function to upload image to Azure storage.
@@ -142,6 +147,65 @@ public class AzureStorageUploaderServiceImpl implements AzureStorageUploaderServ
             e.printStackTrace();
             logger.error("Error setting up container: " + e.getMessage());
             return null;
+        }
+    }
+
+
+    @Override
+    public String uploadFromStockToAzure(ApplicationContext applicationContext, StockPhoto photo, String fileName) {
+        String uri = null;
+
+
+        try {
+            URL url = new URL(photo.getLargeImageURL());
+            URL urlThumb = new URL(photo.getPreviewURL());
+            CloudStorageAccount storageAccount =
+                    (CloudStorageAccount) applicationContext.getBean("cloudStorageAccount");
+            CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+
+            CloudBlobContainer thumbnailImageContainer = setupContainer(blobClient, this.thumbnailImageContainer);
+            CloudBlobContainer originalImageContainer = setupContainer(blobClient, this.originalImageContainer);
+
+            if(thumbnailImageContainer != null) {
+
+                CloudBlockBlob blob = thumbnailImageContainer.getBlockBlobReference(fileName);
+                blob.getProperties().setContentType("image/jpeg");
+                blob.upload(urlThumb.openStream(), getFileSize(urlThumb));
+            }
+
+            if (originalImageContainer != null) {
+                CloudBlockBlob blob = originalImageContainer.getBlockBlobReference(fileName);
+                blob.getProperties().setContentType("image/jpeg");
+                blob.upload(url.openStream(), getFileSize(url));
+                uri = blob.getUri().getPath();
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Error uploading image: " + e.getMessage());
+        }
+
+        System.out.println("----------- URI = " + uri + " --------------------");
+        return uri;
+    }
+
+
+    private int getFileSize(URL url) {
+        URLConnection conn = null;
+        try {
+            conn = url.openConnection();
+            if(conn instanceof HttpURLConnection) {
+                ((HttpURLConnection)conn).setRequestMethod("HEAD");
+            }
+            conn.getInputStream();
+            return conn.getContentLength();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if(conn instanceof HttpURLConnection) {
+                ((HttpURLConnection)conn).disconnect();
+            }
         }
     }
 }

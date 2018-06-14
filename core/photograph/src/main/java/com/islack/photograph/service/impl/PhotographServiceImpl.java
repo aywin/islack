@@ -1,6 +1,7 @@
 package com.islack.photograph.service.impl;
 
 import com.islack.photograph.domain.dto.PhotographDto;
+import com.islack.photograph.domain.entity.Category;
 import com.islack.photograph.domain.entity.Photograph;
 import com.islack.photograph.domain.entity.PhotographAccess;
 import com.islack.photograph.repository.CategoryRepository;
@@ -68,5 +69,21 @@ public class PhotographServiceImpl implements PhotographService {
         }
         Photograph p = photographRepository.findOne(id);
         return photographAccessRepository.findByUsernameAndPhotograph(username, p).isPresent();
+    }
+
+    @Override
+    public List<Photograph> getRecommendations(Photograph p) {
+        return photographRepository.findRecommended(p.getId());
+    }
+
+    @Override
+    public List<Photograph> getRecommendations(List<Photograph> p) {
+        return p.size() > 0 ? photographRepository.findRecommended(p.stream().map(Photograph::getId).collect(Collectors.toList())) :
+                photographRepository.findPopular();
+    }
+
+    @Override
+    public List<Photograph> byCategory(String slug) {
+        return photographRepository.findByCategoriesSlug(slug);
     }
 }
