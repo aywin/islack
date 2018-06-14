@@ -6,4 +6,5 @@ import org.springframework.scheduling.annotation.Async;
 public interface ComputerVisionService {
     @Async
     void analyze(Photograph p);
+    void analyzeWithoutSaving(Photograph p);
 }

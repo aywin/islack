@@ -48,4 +48,18 @@ public class ComputerVisionServiceImpl implements ComputerVisionService {
         request.setUrl(p.getUri());
         submitAnalyzed(p, computerVisionClient.analyze(key, request));
     }
+
+    @Override
+    public void analyzeWithoutSaving(Photograph p) {
+        AnalyzeRequestDto request = new AnalyzeRequestDto();
+        request.setUrl(p.getUri());
+        attachAnalyzed(p, computerVisionClient.analyze(key, request));
+    }
+
+    private void attachAnalyzed(Photograph p, AnalyzedPhotographDto a) {
+        List<Tag> tags = tagRepository.findOrCreate(a.toTags());
+        p.getTags().addAll(tags);
+        Category c = categoryRepository.findBySlug(a.toCategory());
+        p.getCategories().add(c);
+    }
 }

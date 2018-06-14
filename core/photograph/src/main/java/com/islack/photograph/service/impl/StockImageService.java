@@ -9,6 +9,7 @@ import com.islack.photograph.repository.CategoryRepository;
 import com.islack.photograph.repository.PhotographRepository;
 import com.islack.photograph.repository.TagRepository;
 import com.islack.photograph.service.AzureStorageUploaderService;
+import com.islack.photograph.service.ComputerVisionService;
 import com.islack.photograph.service.StockClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -40,9 +41,12 @@ public class StockImageService {
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private ComputerVisionService computerVisionService;
+
     private String[] categories = {"abstract", "animal", "building", "dark", "drink", "sky", "food", "indoor", "people", "plant", "object", "text", "transport", "other"};
 
-    @Async
+    /*@Async
     public void stockToDB2() {
         List<Photograph> photographs = new ArrayList<>();
 
@@ -78,7 +82,7 @@ public class StockImageService {
         }
 
         System.out.println("finfinfinfinfinfin");
-    }
+    }*/
 
     @Transactional
     @Async
@@ -101,6 +105,7 @@ public class StockImageService {
                 p.setUsername("islack");
                 p.setCredit(5L);
                 p.getCategories().add(ct);
+                computerVisionService.analyze(p);
                 photographs.add(p);
             }
             System.out.println("fin helelele ==" + photographs.size());
