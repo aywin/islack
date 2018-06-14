@@ -114,7 +114,7 @@ public class StockImageService {
         }
 
         photographRepository.save(photographs);
-        System.out.println("finfinfinfinfinfin");
+        System.out.println("finfinfinfinfinfin size = " + photographs.size());
     }
 
     private Photograph hitToPhotograph(StockPhoto d) {

@@ -18,12 +18,12 @@ public class Photograph {
     private String uri;
     private String thumbnail;
     private Long credit;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Category> categories = new ArrayList<>();
     @JsonIgnore
-    @OneToMany(mappedBy = "photograph")
+    @OneToMany(mappedBy = "photograph", cascade = CascadeType.ALL)
     private List<PhotographAccess> photographAccesses = new ArrayList<>();
     private String username;
     @Column(nullable = false, updatable = false)
