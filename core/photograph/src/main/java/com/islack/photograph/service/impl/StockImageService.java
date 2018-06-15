@@ -95,7 +95,7 @@ public class StockImageService {
         Category ct = categoryRepository.findBySlug(c);
         try {
             StockPhotoHits s = stockClient.getHits(c, i);
-            System.out.println("SIIZE == " + s.getHits().size());
+            System.out.println("SIIZE2 == " + s.getHits().size());
             for (StockPhoto d : s.getHits()) {
                 String fileName = "islack-" + UUID.randomUUID() + ".jpg";
                 azureStorageUploader.uploadFromStockToAzure(applicationContext, d, fileName);
