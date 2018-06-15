@@ -87,7 +87,7 @@ public class StockImageService {
 
     @Transactional
     @Async
-    public void stockToDB(int category, int i) {
+    public void stockToDB2(int category, int i) {
 
         List<Photograph> photographs = new ArrayList<>();
 
@@ -123,11 +123,30 @@ public class StockImageService {
 
     }
 
+    @Async
+    public void stockToDB() {
+
+        for(String c: categories) {
+            try {
+                for(int i = 1; i <= 10; i++) {
+                    StockPhotoHits s = stockClient.getHits(c, i);
+                    for(StockPhoto sp: s.getHits()) {
+                        Photograph p = hitToPhotograph(sp);
+                        photographRepository.save(p);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+
+    }
+
     private Photograph hitToPhotograph(StockPhoto d) {
         Photograph p = new Photograph();
         p.setThumbnail(d.getPreviewURL());
         p.setUri(d.getLargeImageURL());
-        p.setTags(tagRepository.findOrCreate(d.toTags()));
         p.setUsername("islack");
         p.setCredit(5L);
         return p;
