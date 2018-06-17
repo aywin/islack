@@ -122,4 +122,8 @@ public class PhotographController {
         return new ResponseEntity<>(photographService.findAll(pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Photograph> getOne(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(photographService.findOne(id), HttpStatus.OK);
+    }
 }
