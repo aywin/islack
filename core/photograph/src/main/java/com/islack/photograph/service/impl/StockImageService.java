@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -82,20 +79,23 @@ public class StockImageService {
             s1.execute("DELETE FROM photograph");
             s1.execute("DELETE FROM tag");
 
-            BufferedReader reader = new BufferedReader(new FileReader("/home/yassine/categories/all.sql"));
+            ClassLoader cl = this.getClass().getClassLoader();
+            InputStream is = cl.getResourceAsStream("all.sql");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line;
 
-        while ((line = reader.readLine()) != null) {
-            try {
-                Statement s = connection.createStatement();
-                s.execute(line);
-            } catch (Exception e) {
-                System.out.println(line);
-                System.out.println(e.getMessage());
+
+            while ((line = reader.readLine()) != null) {
+                try {
+                    Statement s = connection.createStatement();
+                    s.execute(line);
+                } catch (Exception e) {
+                    System.out.println(line);
+                    System.out.println(e.getMessage());
+                }
+
             }
-
-        }
-
 
             System.out.println("finished");
             reader.close();
