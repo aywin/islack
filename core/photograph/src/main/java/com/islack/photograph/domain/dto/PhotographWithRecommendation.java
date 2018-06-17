@@ -9,8 +9,17 @@ public class PhotographWithRecommendation {
     private Long id;
     private String uri;
     private String username;
+    private String thumbnail;
     private Long credit;
     private List<Photograph> recommendations = new ArrayList<>();
+
+    public PhotographWithRecommendation(Photograph p) {
+        id = p.getId();
+        uri = p.getUri();
+        username = p.getUsername();
+        thumbnail = p.getThumbnail();
+        credit = p.getCredit();
+    }
 
     public List<Photograph> getRecommendations() {
         return recommendations;

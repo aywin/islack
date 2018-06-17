@@ -103,7 +103,7 @@ public class PhotographController {
     public ResponseEntity<PhotographWithRecommendation> recommend(@PathVariable("id") Long id) {
         Pageable pageable = new PageRequest(0, 20);
         Photograph p = photographService.findOne(id);
-        PhotographWithRecommendation photo = new PhotographWithRecommendation();
+        PhotographWithRecommendation photo = new PhotographWithRecommendation(p);
         photo.setRecommendations(photographService.getRecommendations(p, pageable).getContent());
         return new ResponseEntity<>(photo, HttpStatus.OK);
     }
