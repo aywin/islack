@@ -49,16 +49,16 @@ public class StockPhoto {
                 '}';
     }
 
-    public List<String> toSQL(String cat) {
+    public List<String> toSQL(int cat) {
         List<String> sql = new ArrayList<>(300000);
-        sql.add("INSERT INTO photograph (id, credit, thumbnail, uri, username, created_date, updated_date) VALUES" +
-                "(" + id + ", 'islack', ' " + largeImageURL + "', '" + previewURL + "', GETDATE(), GETDATE());");
+        sql.add("INSERT INTO photograph (id, username, uri, thumbnail, credit, created_date, updated_date) VALUES" +
+                "(" + id + ", 'islack', ' " + largeImageURL + "', '" + previewURL + "', 5, GETDATE(), GETDATE());");
         for(String t: toTags()) {
-            sql.add("INSERT INTO tag(tag) VALUES ('" + t + "')");
-            sql.add("INSERT INTO photograph_tags (photograph_id, tags_tag) VALUES (" + id + ", '" + t + "');");
+            sql.add("INSERT INTO tag(tag) VALUES ('" + t.split("'")[0] + "');");
+            sql.add("INSERT INTO photograph_tags (photograph_id, tags_tag) VALUES (" + id + ", '" + t.split("'")[0] + "');");
         }
 
-        sql.add("INSERT INTO photograph_categories (photograph_id, categories_id) VALUES (" + id + ", '" + cat + "');");
+        sql.add("INSERT INTO photograph_categories (photograph_id, categories_id) VALUES (" + id + ", " + cat + ");");
 
         return sql;
     }

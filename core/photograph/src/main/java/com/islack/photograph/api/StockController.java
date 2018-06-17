@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
     @Autowired
     private StockImageService stockImageService;
-    /*
-    @GetMapping("test/{category}/{page}")
-    public ResponseEntity<String> test(@PathVariable("category") int category, @PathVariable("page") int page) {
+
+    @GetMapping("test")
+    public ResponseEntity<String> test() {
         stockImageService.stockToDB();
         return new ResponseEntity<>("its done !", HttpStatus.OK);
     }
-    */
+
+    @GetMapping("execute")
+    public ResponseEntity<String> execute() {
+        stockImageService.executeSQL();
+        return new ResponseEntity<>("its done SQL !", HttpStatus.OK);
+    }
+
 
 }

@@ -18,7 +18,7 @@ public class Photograph {
     private String uri;
     private String thumbnail;
     private Long credit;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Tag> tags = new ArrayList<>();
     @ManyToMany
     private List<Category> categories = new ArrayList<>();
