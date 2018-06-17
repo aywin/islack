@@ -17,9 +17,9 @@ public interface PhotographRepository extends JpaRepository<Photograph, Long> {
             " AND p.id <> :photograph GROUP BY p.id, p.credit, p.thumbnail, p.uri, p.createdDate, p.updatedDate, p.username ORDER BY COUNT(p) DESC")
     Page<Photograph> findRecommended(@Param("photograph") Long photograph, Pageable pageable);
     @Query("SELECT p FROM Photograph p join p.tags t WHERE t.tag IN (SELECT t2 FROM Photograph p2 join p2.tags t2 WHERE p2.id IN (:list))" +
-            " AND p.id NOT IN (:list) GROUP BY p.id, p.credit, p.thumbnail, p.uri, p.createdDate, p.updatedDate, p.username ORDER BY COUNT(p) DESC")
+            " AND p.id NOT IN (:list) GROUP BY p.id, p.credit, p.thumbnail, p.uri, p.createdDate, p.updatedDate, p.username ORDER BY COUNT(p) DESC, NEWID() ASC")
     Page<Photograph> findRecommended(@Param("list") List<Long> list, Pageable pageable);
-    @Query("SELECT p FROM Photograph p left join p.photographAccesses a GROUP BY p.id, p.credit, p.thumbnail, p.uri, p.createdDate, p.updatedDate, p.username ORDER BY COUNT(a) DESC")
+    @Query("SELECT p FROM Photograph p left join p.photographAccesses a GROUP BY p.id, p.credit, p.thumbnail, p.uri, p.createdDate, p.updatedDate, p.username ORDER BY COUNT(a) DESC, NEWID() ASC")
     Page<Photograph> findPopular(Pageable pageable);
     Page<Photograph> findByCategoriesSlug(String slug, Pageable pageable);
 }
