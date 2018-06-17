@@ -10,6 +10,8 @@ import com.islack.photograph.repository.PhotographRepository;
 import com.islack.photograph.repository.TagRepository;
 import com.islack.photograph.service.PhotographService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,18 +74,23 @@ public class PhotographServiceImpl implements PhotographService {
     }
 
     @Override
-    public List<Photograph> getRecommendations(Photograph p) {
-        return photographRepository.findRecommended(p.getId());
+    public Page<Photograph> getRecommendations(Photograph p, Pageable pageable) {
+        return photographRepository.findRecommended(p.getId(), pageable);
     }
 
     @Override
-    public List<Photograph> getRecommendations(List<Photograph> p) {
-        return p.size() > 0 ? photographRepository.findRecommended(p.stream().map(Photograph::getId).collect(Collectors.toList())) :
-                photographRepository.findPopular();
+    public Page<Photograph> getRecommendations(List<Photograph> p, Pageable pageable) {
+        return p.size() > 0 ? photographRepository.findRecommended(p.stream().map(Photograph::getId).collect(Collectors.toList()), pageable) :
+                photographRepository.findPopular(pageable);
     }
 
     @Override
-    public List<Photograph> byCategory(String slug) {
-        return photographRepository.findByCategoriesSlug(slug);
+    public Page<Photograph> byCategory(String slug, Pageable pageable) {
+        return photographRepository.findByCategoriesSlug(slug, pageable);
+    }
+
+    @Override
+    public Page<Photograph> findAll(Pageable pageable) {
+        return photographRepository.findAll(pageable);
     }
 }

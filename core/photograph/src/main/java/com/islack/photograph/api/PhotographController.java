@@ -10,6 +10,9 @@ import feign.FeignException;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -98,17 +101,25 @@ public class PhotographController {
 
     @GetMapping("{id}/with-recommendation")
     public ResponseEntity<PhotographWithRecommendation> recommend(@PathVariable("id") Long id) {
+        Pageable pageable = new PageRequest(0, 20);
         Photograph p = photographService.findOne(id);
         PhotographWithRecommendation photo = new PhotographWithRecommendation();
-        photo.setRecommendations(photographService.getRecommendations(p));
+        photo.setRecommendations(photographService.getRecommendations(p, pageable).getContent());
         return new ResponseEntity<>(photo, HttpStatus.OK);
     }
 
     @GetMapping("/recommended")
-    public ResponseEntity<List<Photograph>> recommendMulti(Principal principal) {
+    public ResponseEntity<Page<Photograph>> recommendMulti(Principal principal) {
+        Pageable pageable = new PageRequest(0, 20);
         List<Photograph> p = photographService.findOwned(principal.getName());
         p.addAll(photographService.findPurchased(principal.getName()));
-        return new ResponseEntity<>(photographService.getRecommendations(p), HttpStatus.OK);
+        return new ResponseEntity<>(photographService.getRecommendations(p, pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Page<Photograph>> all() {
+        Pageable pageable = new PageRequest(0, 20);
+        return new ResponseEntity<>(photographService.findAll(pageable), HttpStatus.OK);
     }
 
 }
