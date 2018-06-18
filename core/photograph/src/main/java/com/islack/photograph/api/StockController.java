@@ -15,7 +15,7 @@ public class StockController {
     @Autowired
     private StockImageService stockImageService;
 
-    /*
+
     @GetMapping("test")
     public ResponseEntity<String> test() {
         stockImageService.stockToDB();
@@ -27,6 +27,6 @@ public class StockController {
         stockImageService.executeSQL();
         return new ResponseEntity<>("its done SQL !", HttpStatus.OK);
     }
-    */
+
 
 }
